@@ -9,6 +9,7 @@
 import UIKit
 
 protocol SFCollectionViewDelegateCompactLayout: UICollectionViewDelegate {
+  // warning: support for mixed alignment is still under development
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, isLeftAlignedAt section: Int) -> Bool
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat
@@ -73,7 +74,7 @@ class SFCollectionViewCompactLayout: UICollectionViewLayout {
         let itemsCount = collectionView.numberOfItems(inSection: section)
         let indexPaths = [Int](0 ..< itemsCount).map { IndexPath(item: $0, section: section) }
         if isLeftAligned {
-          currentXOffset = self.interitemSpacing // resetting x coordinate for every new section from the left
+          currentXOffset = collectionView.contentInset.left + self.interitemSpacing // resetting x coordinate for every new section from the left
           indexPaths.forEach { indexPath in
             let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             let size = delegate.collectionView(collectionView, layout: self, sizeForItemAt: indexPath)
@@ -101,6 +102,7 @@ class SFCollectionViewCompactLayout: UICollectionViewLayout {
               let nextXOffset = size.width + self.interitemSpacing + currentXOffset
               currentXOffset = nextXOffset
               if maxYOffset < currentYOffset + size.height {
+                // if maxYOffset is smaller, set it to the new max
                 maxYOffset = currentYOffset + size.height
               }
             }

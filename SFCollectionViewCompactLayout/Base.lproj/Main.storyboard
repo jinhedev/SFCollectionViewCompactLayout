@@ -70,6 +70,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="k2J-x7-2bZ" id="D1P-gL-WtO"/>
+                        <outlet property="layout" destination="qaY-zm-fHZ" id="hGV-Z1-RHU"/>
                         <outlet property="tapButton" destination="IK9-y8-X9S" id="Skf-g8-jfv"/>
                     </connections>
                 </viewController>

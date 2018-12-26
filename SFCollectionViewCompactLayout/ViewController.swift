@@ -43,7 +43,7 @@ extension ViewController: UICollectionViewDataSource {
   }
   
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 2
+    return 1
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -54,11 +54,7 @@ extension ViewController: UICollectionViewDataSource {
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    if section == 0 {
-      return 7
-    } else {
-      return 5
-    }
+    return 13
   }
 }
 
@@ -70,25 +66,19 @@ extension ViewController: UICollectionViewDelegate {
 
 extension ViewController: SFCollectionViewDelegateCompactLayout {
   private func setupCollectionViewDelegateCompactLayout() {
-    let layout = SFCollectionViewCompactLayout()
-    layout.delegate = self
-    layout.interitemSpacing = 8
-    layout.lineSpacing = 8
+    self.layout.delegate = self
+    self.layout.interitemSpacing = 8
+    self.layout.lineSpacing = 8
     self.collectionView.collectionViewLayout = layout
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, isLeftAlignedAt section: Int) -> Bool {
-    if section == 0 {
-      return true
-    } else {
-      return false
-    }
+    return true
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    let randInt = Int.random(in: 44...128)
-    let randHeight = CGFloat(integerLiteral: randInt)
-    let randWidth = CGFloat(integerLiteral: randInt)
+    let randHeight = CGFloat(integerLiteral: Int.random(in: 44...128))
+    let randWidth = CGFloat(integerLiteral: Int.random(in: 44...128))
     return CGSize(width: randWidth, height: randHeight)
   }
 }
