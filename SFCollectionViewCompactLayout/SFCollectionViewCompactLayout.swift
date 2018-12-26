@@ -9,17 +9,13 @@
 import UIKit
 
 protocol SFCollectionViewDelegateCompactLayout: UICollectionViewDelegate {
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, shouldLeftAlignedAt section: Int) -> Bool
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, isLeftAlignedAt section: Int) -> Bool
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat
 }
 
 extension SFCollectionViewDelegateCompactLayout {
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, shouldLeftAlignedAt section: Int) -> Bool {
-    return true
-  }
-  
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize.zero
   }
@@ -73,38 +69,76 @@ class SFCollectionViewCompactLayout: UICollectionViewLayout {
       
       let sections = [Int](0 ... collectionView.numberOfSections - 1)
       for section in sections {
-        
+        let isLeftAligned = delegate.collectionView(collectionView, layout: self, isLeftAlignedAt: section)
         let itemsCount = collectionView.numberOfItems(inSection: section)
         let indexPaths = [Int](0 ..< itemsCount).map { IndexPath(item: $0, section: section) }
-        currentXOffset = self.minimumInteritemSpacing // resetting x coordinate for every new section
-        indexPaths.forEach { indexPath in
-          let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-          let size = delegate.collectionView(collectionView, layout: self, sizeForItemAt: indexPath)
-          
-          // the origin starts from the top left corner of a UIKit object
-          let nextXOffset = size.width + self.minimumInteritemSpacing + currentXOffset
-          if nextXOffset < self.collectionViewContentSize.width {
-            attributes.frame = CGRect(x: currentXOffset, y: currentYOffset, width: size.width, height: size.height)
-            self.layoutAttributesMap[indexPath] = attributes
+        if isLeftAligned {
+          currentXOffset = self.minimumInteritemSpacing // resetting x coordinate for every new section from the left
+          indexPaths.forEach { indexPath in
+            let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+            let size = delegate.collectionView(collectionView, layout: self, sizeForItemAt: indexPath)
             
-            currentXOffset = nextXOffset // shift x coordinate to the right by (size.width)
-            // check for max height in this row
-            if maxYOffset < currentYOffset + size.height {
-              // if maxYOffset is smaller, set it to the new max
-              maxYOffset = currentYOffset + size.height
-            }
-          } else {
-            currentXOffset = self.minimumInteritemSpacing // reset currentXOffset for the next row
-            currentYOffset = maxYOffset + self.minimumLineSpacing // set new height (new "row")
-            maxYOffset = currentYOffset
-            
-            attributes.frame = CGRect(x: currentXOffset, y: currentYOffset, width: size.width, height: size.height)
-            self.layoutAttributesMap[indexPath] = attributes
-            
+            // the origin starts from the top left corner of a UIKit object
             let nextXOffset = size.width + self.minimumInteritemSpacing + currentXOffset
-            currentXOffset = nextXOffset
-            if maxYOffset < currentYOffset + size.height {
-              maxYOffset = currentYOffset + size.height
+            if nextXOffset < self.collectionViewContentSize.width {
+              attributes.frame = CGRect(x: currentXOffset, y: currentYOffset, width: size.width, height: size.height)
+              self.layoutAttributesMap[indexPath] = attributes
+              
+              currentXOffset = nextXOffset // shift x coordinate to the right by (size.width)
+              // check for max height in this row
+              if maxYOffset < currentYOffset + size.height {
+                // if maxYOffset is smaller, set it to the new max
+                maxYOffset = currentYOffset + size.height
+              }
+            } else {
+              currentXOffset = self.minimumInteritemSpacing // reset currentXOffset for the next row
+              currentYOffset = maxYOffset + self.minimumLineSpacing // set new height (new "row")
+              maxYOffset = currentYOffset
+              
+              attributes.frame = CGRect(x: currentXOffset, y: currentYOffset, width: size.width, height: size.height)
+              self.layoutAttributesMap[indexPath] = attributes
+              
+              let nextXOffset = size.width + self.minimumInteritemSpacing + currentXOffset
+              currentXOffset = nextXOffset
+              if maxYOffset < currentYOffset + size.height {
+                maxYOffset = currentYOffset + size.height
+              }
+            }
+          }
+        } else {
+          currentXOffset = self.collectionViewContentSize.width - self.minimumInteritemSpacing // resetting x coordinate for every new section from the right
+          indexPaths.forEach { (indexPath) in
+            let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+            let size = delegate.collectionView(collectionView, layout: self, sizeForItemAt: indexPath)
+            
+            // the right-aligned origin starts from top right corner
+            let nextXOffset = currentXOffset - size.width - self.minimumInteritemSpacing
+            if nextXOffset > 0 {
+              currentXOffset = currentXOffset - size.width // shift x coordinate to the left by (size.width)
+              attributes.frame = CGRect(x: currentXOffset, y: currentYOffset, width: size.width, height: size.height)
+              self.layoutAttributesMap[indexPath] = attributes
+              
+              currentXOffset -= self.minimumInteritemSpacing
+              // check for max height in this row
+              if maxYOffset < currentYOffset + size.height {
+                // if maxYOffset is smaller, set it to the new max
+                maxYOffset = currentYOffset + size.height
+              }
+            } else {
+              currentXOffset = self.collectionViewContentSize.width - self.minimumInteritemSpacing
+              currentYOffset = maxYOffset + self.minimumLineSpacing // set new height for new "row"
+              maxYOffset = currentYOffset
+              
+              let nextXOffset = currentXOffset - size.width
+              currentXOffset = nextXOffset
+              
+              attributes.frame = CGRect(x: currentXOffset, y: currentYOffset, width: size.width, height: size.height)
+              self.layoutAttributesMap[indexPath] = attributes
+              
+              currentXOffset -= self.minimumInteritemSpacing
+              if maxYOffset < currentYOffset + size.height {
+                maxYOffset = currentYOffset + size.height
+              }
             }
           }
         }

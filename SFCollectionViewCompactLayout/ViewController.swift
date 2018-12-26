@@ -42,15 +42,23 @@ extension ViewController: UICollectionViewDataSource {
     self.collectionView.dataSource = self
   }
   
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 2
+  }
+  
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! Cell
-    cell.titleLabel.text = "\(indexPath.item) " + self.randomString("qwertyuiopasdfghjklzxcvbnm", length: 10)
+    cell.titleLabel.text = "sec: \(indexPath.section), item: \(indexPath.item)"
     cell.backgroundColor = .red
     return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 13
+    if section == 0 {
+      return 7
+    } else {
+      return 5
+    }
   }
 }
 
@@ -69,8 +77,16 @@ extension ViewController: SFCollectionViewDelegateCompactLayout {
     self.collectionView.collectionViewLayout = layout
   }
   
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, isLeftAlignedAt section: Int) -> Bool {
+    if section == 0 {
+      return true
+    } else {
+      return false
+    }
+  }
+  
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    let randInt = Int.random(in: 44...60)
+    let randInt = Int.random(in: 44...128)
     let randHeight = CGFloat(integerLiteral: randInt)
     let randWidth = CGFloat(integerLiteral: randInt)
     return CGSize(width: randWidth, height: randHeight)

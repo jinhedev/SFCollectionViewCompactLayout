@@ -21,7 +21,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="k2J-x7-2bZ">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewLayout key="collectionViewLayout" id="Mxh-vN-C1S" customClass="SFCollectionViewCompactLayout" customModule="SFCollectionViewCompactLayout" customModuleProvider="target"/>
+                                <collectionViewLayout key="collectionViewLayout" id="qaY-zm-fHZ" customClass="SFCollectionViewCompactLayout" customModule="SFCollectionViewCompactLayout" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="dkP-oE-wMR" customClass="Cell" customModule="SFCollectionViewCompactLayout" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="142" height="50"/>
@@ -30,7 +30,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="142" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2jH-8h-Omn">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2jH-8h-Omn">
                                                     <rect key="frame" x="0.0" y="0.0" width="142" height="50"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -70,7 +70,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="k2J-x7-2bZ" id="D1P-gL-WtO"/>
-                        <outlet property="layout" destination="Mxh-vN-C1S" id="RgF-5o-Hmp"/>
                         <outlet property="tapButton" destination="IK9-y8-X9S" id="Skf-g8-jfv"/>
                     </connections>
                 </viewController>
