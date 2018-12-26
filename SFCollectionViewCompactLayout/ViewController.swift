@@ -67,8 +67,8 @@ extension ViewController: UICollectionViewDelegate {
 extension ViewController: SFCollectionViewDelegateCompactLayout {
   private func setupCollectionViewDelegateCompactLayout() {
     self.layout.delegate = self
-    self.layout.interitemSpacing = 8
     self.layout.lineSpacing = 8
+    self.layout.interitemSpacing = 8
     self.collectionView.collectionViewLayout = layout
   }
   
@@ -80,5 +80,13 @@ extension ViewController: SFCollectionViewDelegateCompactLayout {
     let randHeight = CGFloat(integerLiteral: Int.random(in: 44...128))
     let randWidth = CGFloat(integerLiteral: Int.random(in: 44...128))
     return CGSize(width: randWidth, height: randHeight)
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, interitemSpacingForSectionAt section: Int) -> CGFloat {
+    return 8
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, lineSpacingForSectionAt section: Int) -> CGFloat {
+    return 8
   }
 }
