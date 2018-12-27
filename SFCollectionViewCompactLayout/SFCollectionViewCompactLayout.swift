@@ -33,10 +33,6 @@ extension SFCollectionViewDelegateCompactLayout {
 class SFCollectionViewCompactLayout: UICollectionViewLayout {
   weak var delegate: SFCollectionViewDelegateCompactLayout?
   
-  var lineSpacing: CGFloat = 0
-  
-  var interitemSpacing: CGFloat = 0
-  
   private var scrollDirection: UICollectionView.ScrollDirection = UICollectionView.ScrollDirection.vertical // default: UICollectionViewScrollDirectionVertical
   
   private var layoutAttributesMap = [IndexPath: UICollectionViewLayoutAttributes]()
@@ -64,15 +60,18 @@ class SFCollectionViewCompactLayout: UICollectionViewLayout {
   override func prepare() {
     super.prepare()
     if self.layoutAttributesMap.isEmpty == true, let collectionView = self.collectionView, let delegate = self.delegate {
-      var currentXOffset: CGFloat = self.interitemSpacing
-      var currentYOffset: CGFloat = self.lineSpacing
-      var maxYOffset: CGFloat = 0
+      var currentXOffset: CGFloat = collectionView.contentOffset.x
+      var currentYOffset: CGFloat = collectionView.contentOffset.y
+      var maxYOffset: CGFloat = currentYOffset
       
       let sections = [Int](0 ... collectionView.numberOfSections - 1)
       for section in sections {
         let isLeftAligned = delegate.collectionView(collectionView, layout: self, isLeftAlignedAt: section)
+        let lineSpacing = delegate.collectionView(collectionView, layout: self, lineSpacingForSectionAt: section)
+        let interitemSpacing = delegate.collectionView(collectionView, layout: self, interitemSpacingForSectionAt: section)
         let itemsCount = collectionView.numberOfItems(inSection: section)
         let indexPaths = [Int](0 ..< itemsCount).map { IndexPath(item: $0, section: section) }
+        
         if isLeftAligned {
           currentXOffset = collectionView.contentInset.left + self.interitemSpacing // resetting x coordinate for every new section from the left
           indexPaths.forEach { indexPath in
