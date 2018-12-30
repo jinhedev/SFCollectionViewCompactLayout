@@ -67,8 +67,6 @@ extension ViewController: UICollectionViewDelegate {
 extension ViewController: SFCollectionViewDelegateCompactLayout {
   private func setupCollectionViewDelegateCompactLayout() {
     self.layout.delegate = self
-    self.layout.lineSpacing = 8
-    self.layout.interitemSpacing = 8
     self.collectionView.collectionViewLayout = layout
   }
   
