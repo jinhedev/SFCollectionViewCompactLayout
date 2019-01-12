@@ -18,10 +18,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="k2J-x7-2bZ">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="k2J-x7-2bZ">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewLayout key="collectionViewLayout" id="qaY-zm-fHZ" customClass="SFCollectionViewCompactLayout" customModule="SFCollectionViewCompactLayout" customModuleProvider="target"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="dRo-0f-kz9">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="dkP-oE-wMR" customClass="Cell" customModule="SFCollectionViewCompactLayout" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="142" height="50"/>
@@ -70,7 +75,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="k2J-x7-2bZ" id="D1P-gL-WtO"/>
-                        <outlet property="layout" destination="qaY-zm-fHZ" id="hGV-Z1-RHU"/>
                         <outlet property="tapButton" destination="IK9-y8-X9S" id="Skf-g8-jfv"/>
                     </connections>
                 </viewController>

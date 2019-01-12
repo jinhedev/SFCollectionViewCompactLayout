@@ -11,7 +11,8 @@ import UIKit
 class ViewController: UIViewController {
   @IBOutlet weak var tapButton: UIBarButtonItem!
   @IBOutlet weak var collectionView: UICollectionView!
-  @IBOutlet weak var layout: SFCollectionViewCompactLayout!
+  var flowLayout: UICollectionViewFlowLayout!
+  var compactLayout: SFCollectionViewCompactLayout!
   
   @IBAction func tapButtonTapped(_ sender: UIBarButtonItem) {
     print(123)
@@ -31,7 +32,9 @@ class ViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+//    self.collectionView.contentInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     self.setupCollectionViewDelegateCompactLayout()
+//    self.setupCollectionViewDelegateFlowLayout()
     self.setupCollectionViewDelegate()
     self.setupCollectionViewDataSource()
   }
@@ -66,25 +69,49 @@ extension ViewController: UICollectionViewDelegate {
 
 extension ViewController: SFCollectionViewDelegateCompactLayout {
   private func setupCollectionViewDelegateCompactLayout() {
-    self.layout.delegate = self
-    self.collectionView.collectionViewLayout = layout
+    self.compactLayout = SFCollectionViewCompactLayout()
+    self.compactLayout.delegate = self
+    self.collectionView.collectionViewLayout = self.compactLayout
   }
-  
+
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, isLeftAlignedAt section: Int) -> Bool {
     return true
   }
-  
+
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     let randHeight = CGFloat(integerLiteral: Int.random(in: 44...128))
     let randWidth = CGFloat(integerLiteral: Int.random(in: 44...128))
+    let maxWidth = collectionView.frame.width
     return CGSize(width: randWidth, height: randHeight)
   }
-  
+
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, interitemSpacingForSectionAt section: Int) -> CGFloat {
     return 8
   }
-  
+
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, lineSpacingForSectionAt section: Int) -> CGFloat {
     return 8
   }
 }
+
+//extension ViewController: UICollectionViewDelegateFlowLayout {
+//  private func setupCollectionViewDelegateFlowLayout() {
+//    self.flowLayout = UICollectionViewFlowLayout()
+//    self.collectionView.collectionViewLayout = self.flowLayout
+//  }
+//
+//  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//    let randHeight = CGFloat(integerLiteral: Int.random(in: 44...128))
+//    let randWidth = CGFloat(integerLiteral: Int.random(in: 44...128))
+//    let maxWidth = collectionView.frame.width
+//    return CGSize(width: maxWidth, height: randHeight)
+//  }
+//
+//  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//    return 8
+//  }
+//
+//  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//    return 8
+//  }
+//}
